@@ -12,8 +12,27 @@ if (isLoggedIn === 'true') {
     document.getElementById('hearts').style.display = 'block';
     document.getElementById('musicToggle').style.display = 'flex';
     
-    // Try to play music
-    tryPlayMusic();
+    // Auto play music on reload
+    if (bgMusicMain) {
+        bgMusicMain.volume = 0.5;
+        bgMusicMain.play().then(() => {
+            isMusicPlaying = true;
+            if (musicToggle) {
+                musicToggle.classList.add('playing');
+            }
+        }).catch(error => {
+            // If auto-play blocked, play on first click
+            document.addEventListener('click', () => {
+                if (!isMusicPlaying && bgMusicMain) {
+                    bgMusicMain.play();
+                    isMusicPlaying = true;
+                    if (musicToggle) {
+                        musicToggle.classList.add('playing');
+                    }
+                }
+            }, { once: true });
+        });
+    }
 }
 
 // Xử lý password lock
