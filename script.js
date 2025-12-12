@@ -464,6 +464,8 @@ if (btnQuestionNo && btnQuestionYes) {
     
     // Sự kiện cho nút Có
     btnQuestionYes.addEventListener('click', () => {
+        // Set flag to auto-play music
+        sessionStorage.setItem('playMusic', 'true');
         // Go to gallery
         window.location.href = 'gallery.html';
     });

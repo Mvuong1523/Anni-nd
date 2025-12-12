@@ -194,19 +194,60 @@ function createDistantGalaxies() {
 
 // Background Music
 const bgMusic = document.getElementById('bgMusic');
+const musicControl = document.getElementById('musicControl');
+let isPlaying = false;
+
+// Toggle music
+function toggleMusic() {
+    if (bgMusic) {
+        if (isPlaying) {
+            bgMusic.pause();
+            musicControl.innerHTML = '<span class="music-icon">🔇</span>';
+            musicControl.classList.remove('playing');
+        } else {
+            bgMusic.volume = 0.5; // Set volume to 50%
+            bgMusic.play();
+            musicControl.innerHTML = '<span class="music-icon">🎵</span>';
+            musicControl.classList.add('playing');
+        }
+        isPlaying = !isPlaying;
+    }
+}
 
 // Auto play music when page loads
 function playMusic() {
     if (bgMusic) {
-        bgMusic.volume = 0.5; // Set volume to 50%
-        bgMusic.play().catch(error => {
-            console.log('Auto-play prevented. User interaction needed.');
-            // If auto-play is blocked, play on first click
-            document.addEventListener('click', () => {
-                bgMusic.play();
-            }, { once: true });
-        });
+        bgMusic.volume = 0.5;
+        
+        // Check if user clicked "Yes" button (has interaction)
+        const shouldPlay = sessionStorage.getItem('playMusic');
+        
+        if (shouldPlay === 'true') {
+            sessionStorage.removeItem('playMusic');
+            // User clicked Yes button, safe to play
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.add('playing');
+            }).catch(error => {
+                console.log('Failed to play music');
+            });
+        } else {
+            // Try to play, but might be blocked
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.add('playing');
+            }).catch(error => {
+                console.log('Auto-play prevented. Click music button to play.');
+                isPlaying = false;
+                musicControl.innerHTML = '<span class="music-icon">🔇</span>';
+            });
+        }
     }
+}
+
+// Music control button
+if (musicControl) {
+    musicControl.addEventListener('click', toggleMusic);
 }
 
 // Initialize
