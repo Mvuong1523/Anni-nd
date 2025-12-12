@@ -10,6 +10,15 @@ if (isLoggedIn === 'true') {
     const bottomNav = document.getElementById('bottomNav');
     if (bottomNav) bottomNav.style.display = 'flex';
     document.getElementById('hearts').style.display = 'block';
+    
+    // Play music if already logged in
+    const bgMusicMain = document.getElementById('bgMusicMain');
+    if (bgMusicMain) {
+        bgMusicMain.volume = 0.5;
+        bgMusicMain.play().catch(error => {
+            console.log('Music auto-play prevented');
+        });
+    }
 }
 
 // Xử lý password lock
@@ -48,6 +57,15 @@ function checkPassword() {
     if (enteredPassword === PASSWORD) {
         // Lưu trạng thái đã đăng nhập
         sessionStorage.setItem('isLoggedIn', 'true');
+        
+        // Start music on correct password
+        const bgMusicMain = document.getElementById('bgMusicMain');
+        if (bgMusicMain) {
+            bgMusicMain.volume = 0.5;
+            bgMusicMain.play().catch(error => {
+                console.log('Music auto-play prevented');
+            });
+        }
         
         // Correct password
         passwordScreen.style.animation = 'fadeOut 0.5s ease-out forwards';
@@ -98,6 +116,15 @@ function showForgiveScreen() {
     
     // Lưu trạng thái đã đăng nhập
     sessionStorage.setItem('isLoggedIn', 'true');
+    
+    // Start music
+    const bgMusicMain = document.getElementById('bgMusicMain');
+    if (bgMusicMain) {
+        bgMusicMain.volume = 0.5;
+        bgMusicMain.play().catch(error => {
+            console.log('Music auto-play prevented');
+        });
+    }
     
     // Sau 2 giây thì vào trang chính
     setTimeout(() => {
@@ -464,8 +491,13 @@ if (btnQuestionNo && btnQuestionYes) {
     
     // Sự kiện cho nút Có
     btnQuestionYes.addEventListener('click', () => {
-        // Set flag to auto-play music
-        sessionStorage.setItem('playMusic', 'true');
+        // Save music state before leaving
+        const bgMusicMain = document.getElementById('bgMusicMain');
+        if (bgMusicMain && !bgMusicMain.paused) {
+            sessionStorage.setItem('musicTime', bgMusicMain.currentTime);
+            sessionStorage.setItem('musicPlaying', 'true');
+        }
+        
         // Go to gallery
         window.location.href = 'gallery.html';
     });

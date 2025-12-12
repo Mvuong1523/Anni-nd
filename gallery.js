@@ -217,31 +217,40 @@ function toggleMusic() {
 // Auto play music when page loads
 function playMusic() {
     if (bgMusic) {
+        // Check if music was playing on main page
+        const musicTime = sessionStorage.getItem('musicTime');
+        const wasMusicPlaying = sessionStorage.getItem('musicPlaying');
+        
         bgMusic.volume = 0.5;
         
-        // Check if user clicked "Yes" button (has interaction)
-        const shouldPlay = sessionStorage.getItem('playMusic');
-        
-        if (shouldPlay === 'true') {
-            sessionStorage.removeItem('playMusic');
-            // User clicked Yes button, safe to play
+        if (wasMusicPlaying === 'true' && musicTime) {
+            // Continue from where it left off
+            bgMusic.currentTime = parseFloat(musicTime);
             bgMusic.play().then(() => {
                 isPlaying = true;
                 musicControl.classList.add('playing');
             }).catch(error => {
-                console.log('Failed to play music');
+                console.log('Failed to continue music');
             });
         } else {
-            // Try to play, but might be blocked
+            // Start fresh
             bgMusic.play().then(() => {
                 isPlaying = true;
                 musicControl.classList.add('playing');
             }).catch(error => {
-                console.log('Auto-play prevented. Click music button to play.');
+                console.log('Auto-play prevented');
                 isPlaying = false;
                 musicControl.innerHTML = '<span class="music-icon">🔇</span>';
             });
         }
+        
+        // Save music state periodically
+        setInterval(() => {
+            if (!bgMusic.paused) {
+                sessionStorage.setItem('musicTime', bgMusic.currentTime);
+                sessionStorage.setItem('musicPlaying', 'true');
+            }
+        }, 1000);
     }
 }
 
