@@ -595,9 +595,8 @@ body.no-intro .container {
 }
 
 .love-counter {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    border: none;
     border-radius: 20px;
     margin: 50px 0;
     animation: pulse 2s ease-in-out infinite alternate;
@@ -629,9 +628,8 @@ body.no-intro .container {
 }
 
 .message-box {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    border: none;
     border-radius: 20px;
 }
 
@@ -1274,9 +1272,8 @@ body.no-intro .container {
 
 /* Question Card in Main Content */
 .question-card {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    border: none;
     border-radius: 20px;
 }
 

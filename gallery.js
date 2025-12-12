@@ -6,7 +6,10 @@ const photos = [
     'images/anh4.jpg',
     'images/anh5.jfif',
     'images/anh6.jpg',
-    'images/anh7.jpg'
+    'images/anh7.jpg',
+    'images/anh8.jpg',
+    'images/anh9.jpg',
+    'images/anh10.jfif'
 ];
 
 let photoIndex = 0;
