@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Kỷ Niệm 💕</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="gallery.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <span class="back-arrow">←</span>
+    </a>
+
+    <div class="galaxy-scene">
+        <!-- Stars Background -->
+        <div class="stars-layer" id="starsLayer"></div>
+        
+        <!-- Nebula Clouds -->
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+        
+        <!-- Milky Way -->
+        <div class="milky-way"></div>
+        
+        <!-- Central Sphere made of photos -->
+        <div class="photo-sphere" id="photoSphere">
+            <div class="light-rays"></div>
+            <div class="saturn-ring ring-1"></div>
+            <div class="saturn-ring ring-2"></div>
+            <div class="saturn-ring ring-3"></div>
+        </div>
+
+        <!-- Floating Photos flowing in -->
+        <div class="photo-stream" id="photoStream"></div>
+    </div>
+
+
+
+    <script src="gallery.js"></script>
+</body>
+</html>
