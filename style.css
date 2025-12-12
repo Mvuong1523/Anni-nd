@@ -1340,3 +1340,80 @@ body.no-intro .container {
         width: 100%;
     }
 }
+
+/* Music Toggle Button */
+.music-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    border: 3px solid white;
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+.music-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(255, 20, 147, 0.7);
+}
+
+.music-toggle .music-icon {
+    font-size: 1.8rem;
+    animation: musicNote 1s ease-in-out infinite;
+}
+
+.music-toggle.playing .music-icon {
+    animation: musicNote 0.5s ease-in-out infinite;
+}
+
+.music-toggle.paused {
+    background: linear-gradient(135deg, #999, #ccc);
+    animation: none;
+}
+
+.music-toggle.paused .music-icon {
+    animation: none;
+}
+
+@keyframes musicPulse {
+    0%, 100% {
+        box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+    }
+    50% {
+        box-shadow: 0 5px 30px rgba(255, 20, 147, 0.8);
+    }
+}
+
+@keyframes musicNote {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    25% {
+        transform: scale(1.1) rotate(-5deg);
+    }
+    75% {
+        transform: scale(1.1) rotate(5deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .music-toggle {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .music-toggle .music-icon {
+        font-size: 1.5rem;
+    }
+}

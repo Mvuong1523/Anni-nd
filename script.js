@@ -10,15 +10,10 @@ if (isLoggedIn === 'true') {
     const bottomNav = document.getElementById('bottomNav');
     if (bottomNav) bottomNav.style.display = 'flex';
     document.getElementById('hearts').style.display = 'block';
+    document.getElementById('musicToggle').style.display = 'flex';
     
-    // Play music if already logged in
-    const bgMusicMain = document.getElementById('bgMusicMain');
-    if (bgMusicMain) {
-        bgMusicMain.volume = 0.5;
-        bgMusicMain.play().catch(error => {
-            console.log('Music auto-play prevented');
-        });
-    }
+    // Try to play music
+    tryPlayMusic();
 }
 
 // Xử lý password lock
@@ -30,6 +25,20 @@ const errorMessage = document.getElementById('errorMessage');
 // Auto focus next input
 pinInputs.forEach((input, index) => {
     input.addEventListener('input', (e) => {
+        // Start music on first interaction
+        if (!isMusicPlaying && bgMusicMain) {
+            bgMusicMain.volume = 0.5;
+            bgMusicMain.play().then(() => {
+                isMusicPlaying = true;
+                if (musicToggle) {
+                    musicToggle.style.display = 'flex';
+                    musicToggle.classList.add('playing');
+                }
+            }).catch(err => {
+                console.log('Music play failed');
+            });
+        }
+        
         if (e.target.value.length === 1 && index < pinInputs.length - 1) {
             pinInputs[index + 1].focus();
         }
@@ -58,13 +67,10 @@ function checkPassword() {
         // Lưu trạng thái đã đăng nhập
         sessionStorage.setItem('isLoggedIn', 'true');
         
-        // Start music on correct password
-        const bgMusicMain = document.getElementById('bgMusicMain');
-        if (bgMusicMain) {
-            bgMusicMain.volume = 0.5;
-            bgMusicMain.play().catch(error => {
-                console.log('Music auto-play prevented');
-            });
+        // Music should already be playing from password input
+        // Just show the button
+        if (musicToggle) {
+            musicToggle.style.display = 'flex';
         }
         
         // Correct password
@@ -117,13 +123,10 @@ function showForgiveScreen() {
     // Lưu trạng thái đã đăng nhập
     sessionStorage.setItem('isLoggedIn', 'true');
     
-    // Start music
-    const bgMusicMain = document.getElementById('bgMusicMain');
-    if (bgMusicMain) {
-        bgMusicMain.volume = 0.5;
-        bgMusicMain.play().catch(error => {
-            console.log('Music auto-play prevented');
-        });
+    // Music should already be playing from password input
+    // Just show the button
+    if (musicToggle) {
+        musicToggle.style.display = 'flex';
     }
     
     // Sau 2 giây thì vào trang chính
@@ -500,5 +503,52 @@ if (btnQuestionNo && btnQuestionYes) {
         
         // Go to gallery
         window.location.href = 'gallery.html';
+    });
+}
+
+
+// Music Control
+let isMusicPlaying = false;
+const bgMusicMain = document.getElementById('bgMusicMain');
+const musicToggle = document.getElementById('musicToggle');
+
+function tryPlayMusic() {
+    if (bgMusicMain) {
+        bgMusicMain.volume = 0.5;
+        bgMusicMain.play().then(() => {
+            isMusicPlaying = true;
+            if (musicToggle) {
+                musicToggle.classList.add('playing');
+                musicToggle.classList.remove('paused');
+            }
+        }).catch(error => {
+            console.log('Auto-play prevented, user needs to click music button');
+            isMusicPlaying = false;
+            if (musicToggle) {
+                musicToggle.classList.remove('playing');
+                musicToggle.classList.add('paused');
+                musicToggle.innerHTML = '<span class="music-icon">🔇</span>';
+            }
+        });
+    }
+}
+
+if (musicToggle) {
+    musicToggle.addEventListener('click', () => {
+        if (bgMusicMain) {
+            if (isMusicPlaying) {
+                bgMusicMain.pause();
+                isMusicPlaying = false;
+                musicToggle.classList.remove('playing');
+                musicToggle.classList.add('paused');
+                musicToggle.innerHTML = '<span class="music-icon">🔇</span>';
+            } else {
+                bgMusicMain.play();
+                isMusicPlaying = true;
+                musicToggle.classList.add('playing');
+                musicToggle.classList.remove('paused');
+                musicToggle.innerHTML = '<span class="music-icon">🎵</span>';
+            }
+        }
     });
 }

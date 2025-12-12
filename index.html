@@ -34,7 +34,7 @@
                 <input type="password" maxlength="1" class="pin-input" id="pin4">
             </div>
             <div class="error-message" id="errorMessage">Mật khẩu không đúng!</div>
-            <div class="password-hint" id="passwordHint">💡 Gợi ý: oăn phai tu thờry (DDMM)</div>
+            <div class="password-hint" id="passwordHint">💡 Gợi ý: oăn phai tu thờry</div>
         </div>
     </div>
 
@@ -61,12 +61,10 @@
         <source src="music/I Do.mp3" type="audio/mpeg">
     </audio>
     
-    <script>
-        // Store music instance globally to persist across pages
-        if (!window.globalMusic) {
-            window.globalMusic = document.getElementById('bgMusicMain');
-        }
-    </script>
+    <!-- Music Control Button -->
+    <button class="music-toggle" id="musicToggle" style="display: none;">
+        <span class="music-icon">🎵</span>
+    </button>
     
     <!-- Love Story Animation -->
     <div class="love-story-screen" id="loveStoryScreen" style="display: none;">
