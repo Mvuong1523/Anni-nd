@@ -192,11 +192,29 @@ function createDistantGalaxies() {
     }
 }
 
+// Background Music
+const bgMusic = document.getElementById('bgMusic');
+
+// Auto play music when page loads
+function playMusic() {
+    if (bgMusic) {
+        bgMusic.volume = 0.5; // Set volume to 50%
+        bgMusic.play().catch(error => {
+            console.log('Auto-play prevented. User interaction needed.');
+            // If auto-play is blocked, play on first click
+            document.addEventListener('click', () => {
+                bgMusic.play();
+            }, { once: true });
+        });
+    }
+}
+
 // Initialize
 createStars();
 createDistantGalaxies();
 createPhotoSphere();
 createAdditionalRays();
+playMusic(); // Start music
 
 // Create initial burst of 3D photos
 const numPhotos = 40; // Reduced for performance
